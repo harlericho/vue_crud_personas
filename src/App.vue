@@ -1,26 +1,22 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="centrado">
+    <img alt="Vue logo" src="./assets/logo.png" />
+  </div>
+  <Persona />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import Persona from "./components/Persona.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
-  }
-}
+    Persona,
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.centrado {
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
