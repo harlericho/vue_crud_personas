@@ -22,7 +22,6 @@
                   v-model="persona.dni"
                   ref="dni"
                   autofocus
-                  required
                 />
               </div>
               <div class="mb-3">
@@ -31,7 +30,7 @@
                   type="text"
                   class="form-control"
                   v-model="persona.nombres"
-                  required
+                  ref="nombres"
                 />
               </div>
               <div class="mb-3">
@@ -44,7 +43,6 @@
                   v-model="persona.correo"
                   ref="correo"
                   aria-describedby="emailHelp"
-                  required
                 />
               </div>
               <div class="mb-3">
@@ -145,6 +143,7 @@
 <script>
 const url = "http://localhost:2000/";
 import axios from "axios";
+import Swal from "sweetalert2";
 export default {
   data() {
     return {
@@ -233,6 +232,12 @@ export default {
                 duration: 2000,
               });
               this.$refs.correo.focus();
+            } else if (err.response.data.mensaje[0]["param"] === "nombres") {
+              this.$toast.error(err.response.data.mensaje[0]["msg"], {
+                position: "top-right",
+                duration: 2000,
+              });
+              this.$refs.nombres.focus();
             }
           }
         });
@@ -262,25 +267,42 @@ export default {
                 duration: 2000,
               });
               this.$refs.correo.focus();
+            } else if (err.response.data.mensaje[0]["param"] === "nombres") {
+              this.$toast.error(err.response.data.mensaje[0]["msg"], {
+                position: "top-right",
+                duration: 2000,
+              });
+              this.$refs.nombres.focus();
             }
           }
         });
     },
     eliminarData(id) {
-      if (confirm("¿Desea eliminar el registro?")) {
-        axios
-          .delete(url + id)
-          .then(() => {
-            this.$toast.success("Dato eliminado correctamente..!", {
-              position: "top-right",
-              duration: 2000,
+      Swal.fire({
+        title: "Estás seguro?",
+        text: "No podrás revertir esto!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Si, eliminarlo!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Eliminado!", "Su archivo ha sido eliminado", "success");
+          axios
+            .delete(url + id)
+            .then(() => {
+              this.$toast.success("Dato eliminado correctamente..!", {
+                position: "top-right",
+                duration: 2000,
+              });
+              this.listadoData();
+            })
+            .catch((err) => {
+              console.error(err);
             });
-            this.listadoData();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
+        }
+      });
     },
     obtenerData(id) {
       this.$toast.info("Usted va realizar una actualización..!", {

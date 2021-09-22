@@ -14,6 +14,7 @@
     "core-js": "^3.6.5",
     "stylus": "^0.55.0",
     "stylus-loader": "^3.0.2",
+    "sweetalert2": "^11.1.6",
     "vue": "^3.0.0"
   },
   "devDependencies": {
